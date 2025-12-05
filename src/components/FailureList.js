@@ -2,7 +2,7 @@ import React from 'react';
 import CommentSection from '../CommentSection';
 import VoteButton from './VoteButton';
 
-const FailureList = ({ failures, onSupport, onAddComment }) => {
+const FailureList = ({ failures, onSupport, onAddComment, onReplyToComment }) => {
     const formatTime = (timestamp) => {
         if (!timestamp) return '';
         const date = new Date(timestamp);
@@ -38,7 +38,11 @@ const FailureList = ({ failures, onSupport, onAddComment }) => {
                     </div>
 
                     <div className="failure-comments">
-                        <CommentSection comments={failure.comments || []} onAddComment={(text) => onAddComment(failure.id, text)} />
+                        <CommentSection
+                            comments={failure.comments || []}
+                            onAddComment={(text) => onAddComment(failure.id, text)}
+                            onReplyToComment={(commentId, text) => onReplyToComment(failure.id, commentId, text)}
+                        />
                     </div>
                 </div>
             ))}

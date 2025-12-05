@@ -74,7 +74,36 @@ const HomePage = () => {
             if (failure.id === failureId) {
                 return {
                     ...failure,
-                    comments: [...failure.comments, { id: Date.now(), text: commentText, author: "Anonymous" }]
+                    comments: [...failure.comments, {
+                        id: Date.now(),
+                        text: commentText,
+                        author: "Anonymous",
+                        replies: []
+                    }]
+                };
+            }
+            return failure;
+        }));
+    };
+
+    const handleReplyToComment = (failureId, commentId, replyText) => {
+        setFailures(failures.map(failure => {
+            if (failure.id === failureId) {
+                return {
+                    ...failure,
+                    comments: failure.comments.map(comment => {
+                        if (comment.id === commentId) {
+                            return {
+                                ...comment,
+                                replies: [...(comment.replies || []), {
+                                    id: Date.now(),
+                                    text: replyText,
+                                    author: "Anonymous"
+                                }]
+                            };
+                        }
+                        return comment;
+                    })
                 };
             }
             return failure;
@@ -134,6 +163,7 @@ const HomePage = () => {
                 failures={sortedFailures}
                 onSupport={handleSupport}
                 onAddComment={handleAddComment}
+                onReplyToComment={handleReplyToComment}
             />
         </div>
     );

@@ -1,9 +1,9 @@
 const blogPosts = [
-    {
-        id: 1,
-        title: "Why Failure is the Best Teacher",
-        excerpt: "We often fear failure, but it is actually the most potent tool for growth. Here is why you should embrace your mistakes.",
-        content: `
+  {
+    id: 1,
+    title: "Why Failure is the Best Teacher",
+    excerpt: "We often fear failure, but it is actually the most potent tool for growth. Here is why you should embrace your mistakes.",
+    content: `
         <p>Failure is often seen as a negative outcome, something to be avoided at all costs. However, this perspective overlooks the immense value that failure brings to our personal and professional lives.</p>
         
         <h3>1. It Builds Resilience</h3>
@@ -17,15 +17,15 @@ const blogPosts = [
 
         <p>So next time you fail, don't despair. Ask yourself: "What can I learn from this?" and use that lesson to fuel your next success.</p>
       `,
-        author: "Sarah J.",
-        date: "Oct 12, 2023",
-        readTime: "5 min read"
-    },
-    {
-        id: 2,
-        title: "5 Famous People Who Failed Before Succeeding",
-        excerpt: "From J.K. Rowling to Steve Jobs, discover how the world's most successful people turned their failures into triumphs.",
-        content: `
+    author: "Sarah J.",
+    date: "Oct 12, 2023",
+    readTime: "5 min read"
+  },
+  {
+    id: 2,
+    title: "5 Famous People Who Failed Before Succeeding",
+    excerpt: "From J.K. Rowling to Steve Jobs, discover how the world's most successful people turned their failures into triumphs.",
+    content: `
         <p>It's easy to look at successful people and assume they've always been on top. But the truth is, most of them faced significant failures before achieving their dreams.</p>
 
         <h3>1. J.K. Rowling</h3>
@@ -39,15 +39,15 @@ const blogPosts = [
 
         <p>These stories remind us that failure is not the end of the road. It's often just a stepping stone to something greater.</p>
       `,
-        author: "Mike T.",
-        date: "Oct 15, 2023",
-        readTime: "7 min read"
-    },
-    {
-        id: 3,
-        title: "How to Recover from a Coding Disaster",
-        excerpt: "Did you just delete the production database? Don't panic. Here is a step-by-step guide to fixing your mess and your reputation.",
-        content: `
+    author: "Mike T.",
+    date: "Oct 15, 2023",
+    readTime: "7 min read"
+  },
+  {
+    id: 3,
+    title: "How to Recover from a Coding Disaster",
+    excerpt: "Did you just delete the production database? Don't panic. Here is a step-by-step guide to fixing your mess and your reputation.",
+    content: `
         <p>We've all been there. You run a command, hit enter, and immediately realize you've made a terrible mistake. Your heart sinks. Panic sets in.</p>
 
         <h3>Step 1: Breathe</h3>
@@ -64,10 +64,40 @@ const blogPosts = [
 
         <p>Remember, you are not defined by your mistakes, but by how you handle them.</p>
       `,
-        author: "Alex Code",
-        date: "Oct 20, 2023",
-        readTime: "4 min read"
-    }
+    author: "Alex Code",
+    date: "Oct 20, 2023",
+    readTime: "4 min read"
+  },
+  {
+    id: 4,
+    title: "The Art of Saying 'No'",
+    excerpt: "Overcommitting leads to burnout and failure. Learning to say 'no' is a superpower for your mental health and productivity.",
+    content: `
+        <p>We often say 'yes' to everything because we want to be helpful, or we fear missing out. But every 'yes' to something unimportant is a 'no' to something essential.</p>
+        <h3>Quality over Quantity</h3>
+        <p>When you spread yourself too thin, you fail at everything. Focusing on a few key tasks allows you to excel.</p>
+        <h3>Setting Boundaries</h3>
+        <p>Respect your own time. If you don't, no one else will. It's okay to prioritize your well-being.</p>
+      `,
+    author: "Lisa M.",
+    date: "Nov 01, 2023",
+    readTime: "3 min read"
+  },
+  {
+    id: 5,
+    title: "Imposter Syndrome: You Are Not a Fraud",
+    excerpt: "Feeling like you don't belong? Like you're faking it? You're not alone. Here's how to deal with Imposter Syndrome.",
+    content: `
+        <p>Imposter syndrome is that nagging voice that says you're not good enough, that you're just lucky, and that everyone will find out you're a fraud.</p>
+        <h3>Recognize the Signs</h3>
+        <p>Do you attribute your success to luck? Do you fear being exposed? Acknowledge these feelings as thoughts, not facts.</p>
+        <h3>Talk About It</h3>
+        <p>You'd be surprised how many high-achievers feel the same way. Sharing your feelings can take away their power.</p>
+      `,
+    author: "Dr. K. Smith",
+    date: "Nov 05, 2023",
+    readTime: "6 min read"
+  }
 ];
 
 export default blogPosts;
