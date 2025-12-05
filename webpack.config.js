@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.js', // Giriş dosyası
@@ -22,10 +23,17 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new Dotenv({
+      path: './.env.local', // .env.local dosyasını oku
+      systemvars: true, // Sistem değişkenlerini de dahil et (Vercel için önemli)
+    }),
+  ],
   devServer: {
     static: path.resolve(__dirname, 'public'), // Statik dosyaların yolu
     port: 8080, // Geliştirme sunucusu portu
     open: true, // Tarayıcıyı otomatik aç
+    historyApiFallback: true, // Router için gerekli
   },
   resolve: {
     extensions: ['.js', '.jsx'], // Uzantıları çözümle
