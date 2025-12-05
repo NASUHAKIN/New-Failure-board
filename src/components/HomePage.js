@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FailureForm from './FailureForm';
 import FailureList from './FailureList';
 
@@ -8,39 +8,49 @@ const HomePage = () => {
 
     const dailyPrompt = "What is a mistake you made today that taught you something?";
 
-    const [failures, setFailures] = useState([
-        {
-            id: 1,
-            text: "I tried to learn React in one day and cried.",
-            author: "Anonymous",
-            votes: 15,
-            category: "Coding",
-            timestamp: Date.now() - 100000,
-            isSupportRequest: false,
-            comments: [
-                { id: 1, text: "We've all been there! Keep going.", author: "DevGuru" }
-            ]
-        },
-        {
-            id: 2,
-            text: "Deployed to production on a Friday evening...",
-            author: "JuniorDev_99",
-            votes: 42,
-            category: "Work",
-            timestamp: Date.now() - 200000,
-            isSupportRequest: true,
-            comments: []
-        },
-        {
-            id: 3,
-            text: "Sent 'Love you' to my boss instead of my wife.",
-            votes: 89,
-            category: "Life",
-            timestamp: Date.now(),
-            isSupportRequest: false,
-            comments: []
+    const [failures, setFailures] = useState(() => {
+        const savedFailures = localStorage.getItem('failures');
+        if (savedFailures) {
+            return JSON.parse(savedFailures);
         }
-    ]);
+        return [
+            {
+                id: 1,
+                text: "I tried to learn React in one day and cried.",
+                author: "Anonymous",
+                votes: 15,
+                category: "Coding",
+                timestamp: Date.now() - 100000,
+                isSupportRequest: false,
+                comments: [
+                    { id: 1, text: "We've all been there! Keep going.", author: "DevGuru" }
+                ]
+            },
+            {
+                id: 2,
+                text: "Deployed to production on a Friday evening...",
+                author: "JuniorDev_99",
+                votes: 42,
+                category: "Work",
+                timestamp: Date.now() - 200000,
+                isSupportRequest: true,
+                comments: []
+            },
+            {
+                id: 3,
+                text: "Sent 'Love you' to my boss instead of my wife.",
+                votes: 89,
+                category: "Life",
+                timestamp: Date.now(),
+                isSupportRequest: false,
+                comments: []
+            }
+        ];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('failures', JSON.stringify(failures));
+    }, [failures]);
 
     const addFailure = (newFailureData) => {
         const newFailure = {
