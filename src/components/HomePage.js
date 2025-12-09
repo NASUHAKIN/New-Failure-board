@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import FailureForm from './FailureForm';
 import FailureList from './FailureList';
+import SearchBar from './SearchBar';
 
 const HomePage = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showBookmarked, setShowBookmarked] = useState(false);
+
+    // Bookmarks state
+    const [bookmarks, setBookmarks] = useState(() => {
+        const savedBookmarks = localStorage.getItem('bookmarks');
+        return savedBookmarks ? JSON.parse(savedBookmarks) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }, [bookmarks]);
 
     const dailyPrompt = "What is a mistake you made today that taught you something?";
 
@@ -22,6 +35,7 @@ const HomePage = () => {
                 category: "Coding",
                 timestamp: Date.now() - 100000,
                 isSupportRequest: false,
+                reactions: {},
                 comments: [
                     { id: 1, text: "We've all been there! Keep going.", author: "DevGuru" }
                 ]
@@ -34,6 +48,7 @@ const HomePage = () => {
                 category: "Work",
                 timestamp: Date.now() - 200000,
                 isSupportRequest: true,
+                reactions: {},
                 comments: []
             },
             {
@@ -43,6 +58,7 @@ const HomePage = () => {
                 category: "Life",
                 timestamp: Date.now(),
                 isSupportRequest: false,
+                reactions: {},
                 comments: []
             }
         ];
@@ -58,6 +74,7 @@ const HomePage = () => {
             ...newFailureData,
             votes: 0,
             timestamp: Date.now(),
+            reactions: {},
             comments: []
         };
         setFailures([newFailure, ...failures]);
@@ -67,6 +84,34 @@ const HomePage = () => {
         setFailures(failures.map(failure =>
             failure.id === id ? { ...failure, votes: failure.votes + 1 } : failure
         ));
+    };
+
+    const handleReaction = (id, reactionType) => {
+        setFailures(failures.map(failure => {
+            if (failure.id === id) {
+                const currentReactions = failure.reactions || {};
+                return {
+                    ...failure,
+                    reactions: {
+                        ...currentReactions,
+                        [reactionType]: (currentReactions[reactionType] || 0) + 1
+                    }
+                };
+            }
+            return failure;
+        }));
+    };
+
+    const handleEditStory = (updatedStory) => {
+        setFailures(failures.map(failure =>
+            failure.id === updatedStory.id ? updatedStory : failure
+        ));
+    };
+
+    const handleDeleteStory = (id) => {
+        if (window.confirm('Are you sure you want to delete this story?')) {
+            setFailures(failures.filter(failure => failure.id !== id));
+        }
     };
 
     const handleAddComment = (failureId, commentText) => {
@@ -110,7 +155,28 @@ const HomePage = () => {
         }));
     };
 
-    const filteredFailures = failures.filter(failure =>
+    const handleToggleBookmark = (storyId) => {
+        setBookmarks(prev => {
+            if (prev.includes(storyId)) {
+                return prev.filter(id => id !== storyId);
+            }
+            return [...prev, storyId];
+        });
+    };
+
+    // Filter by search term
+    const searchFilteredFailures = failures.filter(failure =>
+        failure.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (failure.author && failure.author.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    // Filter by bookmarks if showing saved
+    const bookmarkFilteredFailures = showBookmarked
+        ? searchFilteredFailures.filter(f => bookmarks.includes(f.id))
+        : searchFilteredFailures;
+
+    // Filter by category
+    const filteredFailures = bookmarkFilteredFailures.filter(failure =>
         selectedCategory === 'All' || failure.category === selectedCategory
     );
 
@@ -120,6 +186,7 @@ const HomePage = () => {
     });
 
     const categories = ["All", "General", "Coding", "Work", "Life", "Love", "Cooking"];
+    const bookmarkCount = bookmarks.length;
 
     return (
         <div className="home-page">
@@ -129,6 +196,8 @@ const HomePage = () => {
             </div>
 
             <FailureForm addFailure={addFailure} />
+
+            <SearchBar onSearch={setSearchTerm} />
 
             <div className="controls-section">
                 <div className="category-filters">
@@ -156,14 +225,31 @@ const HomePage = () => {
                     >
                         Most Supported
                     </button>
+                    <button
+                        className={`sort-btn bookmark-filter ${showBookmarked ? 'active' : ''}`}
+                        onClick={() => setShowBookmarked(!showBookmarked)}
+                    >
+                        🔖 Saved ({bookmarkCount})
+                    </button>
                 </div>
             </div>
+
+            {sortedFailures.length === 0 && searchTerm && (
+                <div className="no-results">
+                    <p>No stories found for "{searchTerm}"</p>
+                </div>
+            )}
 
             <FailureList
                 failures={sortedFailures}
                 onSupport={handleSupport}
                 onAddComment={handleAddComment}
                 onReplyToComment={handleReplyToComment}
+                onReaction={handleReaction}
+                onEditStory={handleEditStory}
+                onDeleteStory={handleDeleteStory}
+                bookmarks={bookmarks}
+                onToggleBookmark={handleToggleBookmark}
             />
         </div>
     );
