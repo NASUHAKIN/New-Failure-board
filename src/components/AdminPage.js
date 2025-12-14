@@ -280,11 +280,11 @@ const AdminPage = () => {
                             <h4>Manage Users</h4>
                             <p>Ban or view users</p>
                         </div>
-                        <div className="action-card" onClick={sendWeeklyDigest}>
+                        <Link to="/admin/digest" className="action-card">
                             <span className="action-icon">📧</span>
                             <h4>Send Digest</h4>
                             <p>Weekly email to all</p>
-                        </div>
+                        </Link>
                         <div className="action-card" onClick={exportData}>
                             <span className="action-icon">📥</span>
                             <h4>Export Data</h4>

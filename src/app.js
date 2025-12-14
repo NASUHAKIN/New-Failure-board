@@ -15,6 +15,7 @@ import LeaderboardPage from './components/LeaderboardPage';
 import StatsPage from './components/StatsPage';
 import MessagesPage from './components/MessagesPage';
 import AdminPage from './components/AdminPage';
+import DigestPage from './components/DigestPage';
 import './index.css';
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
                     <Route path="/stats" element={<StatsPage />} />
                     <Route path="/messages" element={<MessagesPage />} />
                     <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/admin/digest" element={<DigestPage />} />
                   </Routes>
                 </main>
                 <Footer />
