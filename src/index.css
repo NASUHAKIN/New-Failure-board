@@ -4079,52 +4079,65 @@ body.light-mode .tabs-clean {
   background: rgba(124, 58, 237, 0.1);
 }
 
-/* Report Modal */
+/* Report Modal - Fixed Sizing */
 .report-modal {
-  max-width: 400px;
+  max-width: 380px !important;
+  width: 90%;
+  padding: 24px !important;
+}
+
+.report-modal h2 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
 }
 
 .report-subtitle {
   color: var(--text-secondary);
-  margin: 0 0 20px;
+  margin: 0 0 16px;
+  font-size: 0.9rem;
 }
 
 .reason-options {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .reason-option {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--card-border);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 0.9rem;
 }
 
 .reason-option:hover {
   border-color: var(--primary);
+  background: rgba(139, 92, 246, 0.05);
 }
 
 .reason-option input {
+  width: 16px;
+  height: 16px;
   accent-color: var(--primary);
 }
 
 .report-textarea {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
   color: var(--text-primary);
   resize: vertical;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
 }
 
 .report-submit-btn {
@@ -4146,6 +4159,40 @@ body.light-mode .tabs-clean {
 .report-submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Report modal close button */
+.report-modal .modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.report-modal .modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 480px) {
+  .report-modal {
+    max-width: 95% !important;
+    padding: 20px !important;
+  }
+
+  .reason-option {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
 }
 
 .report-success {
