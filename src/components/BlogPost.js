@@ -45,8 +45,8 @@ const BlogPost = () => {
         const newComment = {
             id: Date.now(),
             text: comment,
-            author: currentUser ? (userProfile?.displayName || currentUser.displayName || 'Anonim') : 'Anonim',
-            date: new Date().toLocaleDateString('tr-TR')
+            author: currentUser ? (userProfile?.displayName || currentUser.displayName || 'Anonymous') : 'Anonymous',
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
         };
 
         const savedPosts = localStorage.getItem('blogPosts');
@@ -81,7 +81,7 @@ const BlogPost = () => {
     if (loading) {
         return (
             <div className="blog-post-container">
-                <p>Yükleniyor...</p>
+                <p>Loading...</p>
             </div>
         );
     }
@@ -89,15 +89,15 @@ const BlogPost = () => {
     if (!post) {
         return (
             <div className="blog-post-container">
-                <h2>Yazı bulunamadı</h2>
-                <Link to="/blog" className="back-link">← Blog'a Dön</Link>
+                <h2>Post not found</h2>
+                <Link to="/blog" className="back-link">← Back to Blog</Link>
             </div>
         );
     }
 
     return (
         <div className="blog-post-container">
-            <Link to="/blog" className="back-link">← Blog'a Dön</Link>
+            <Link to="/blog" className="back-link">← Back to Blog</Link>
 
             <article className="blog-post-full">
                 <header className="blog-post-header">
@@ -119,11 +119,11 @@ const BlogPost = () => {
                 {/* Actions */}
                 <div className="blog-post-actions">
                     <button className="like-btn-large" onClick={handleLike}>
-                        ❤️ {post.likes || 0} Beğeni
+                        ❤️ {post.likes || 0} Likes
                     </button>
 
                     <div className="share-buttons">
-                        <span>Paylaş:</span>
+                        <span>Share:</span>
                         <button onClick={() => handleShare('twitter')}>𝕏</button>
                         <button onClick={() => handleShare('linkedin')}>in</button>
                         <button onClick={() => handleShare('whatsapp')}>📱</button>
@@ -132,23 +132,23 @@ const BlogPost = () => {
 
                 {/* Comments */}
                 <section className="comments-section">
-                    <h3>Yorumlar ({post.comments?.length || 0})</h3>
+                    <h3>Comments ({post.comments?.length || 0})</h3>
 
                     <form className="comment-form" onSubmit={handleAddComment}>
                         <textarea
-                            placeholder="Yorum yaz..."
+                            placeholder="Write a comment..."
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             rows={3}
                         />
                         <button type="submit" disabled={!comment.trim()}>
-                            Yorum Gönder
+                            Post Comment
                         </button>
                     </form>
 
                     <div className="comments-list">
                         {(post.comments || []).length === 0 ? (
-                            <p className="no-comments">Henüz yorum yok. İlk yorumu sen yaz!</p>
+                            <p className="no-comments">No comments yet. Be the first to comment!</p>
                         ) : (
                             post.comments.map(c => (
                                 <div key={c.id} className="comment-item">

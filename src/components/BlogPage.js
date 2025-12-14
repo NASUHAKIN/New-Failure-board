@@ -4,11 +4,11 @@ import { useAuth } from '../contexts/AuthContext';
 import defaultBlogPosts from '../data/blogData';
 
 const CATEGORIES = [
-    { id: 'all', name: 'Tümü' },
-    { id: 'career', name: 'Kariyer' },
-    { id: 'coding', name: 'Yazılım' },
+    { id: 'all', name: 'All' },
+    { id: 'career', name: 'Career' },
+    { id: 'coding', name: 'Coding' },
     { id: 'mindset', name: 'Mindset' },
-    { id: 'life', name: 'Hayat' }
+    { id: 'life', name: 'Life' }
 ];
 
 const BlogPage = () => {
@@ -30,7 +30,6 @@ const BlogPage = () => {
         if (savedPosts) {
             setPosts(JSON.parse(savedPosts));
         } else {
-            // Add categories to default posts
             const postsWithCategories = defaultBlogPosts.map((post, index) => ({
                 ...post,
                 category: ['mindset', 'career', 'coding', 'life', 'mindset'][index % 5],
@@ -59,7 +58,7 @@ const BlogPage = () => {
     };
 
     const handleDeletePost = (postId) => {
-        if (!window.confirm('Bu yazıyı silmek istediğinden emin misin?')) return;
+        if (!window.confirm('Are you sure you want to delete this post?')) return;
         const updated = posts.filter(p => p.id !== postId);
         savePosts(updated);
     };
@@ -79,14 +78,14 @@ const BlogPage = () => {
             {/* Header */}
             <header className="blog-header">
                 <h1>Blog</h1>
-                <p>Başarısızlıktan öğrenmek hakkında makaleler</p>
+                <p>Articles about learning from failure</p>
 
                 {isAdmin && (
                     <button
                         className="add-post-btn"
                         onClick={() => setShowAddModal(true)}
                     >
-                        + Yeni Yazı
+                        + New Post
                     </button>
                 )}
             </header>
@@ -95,7 +94,7 @@ const BlogPage = () => {
             <div className="blog-controls">
                 <input
                     type="text"
-                    placeholder="Ara..."
+                    placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="blog-search"
@@ -118,7 +117,7 @@ const BlogPage = () => {
             {featuredPost && (
                 <article className="featured-post">
                     <div className="featured-content">
-                        <span className="category-tag">{CATEGORIES.find(c => c.id === featuredPost.category)?.name || 'Genel'}</span>
+                        <span className="category-tag">{CATEGORIES.find(c => c.id === featuredPost.category)?.name || 'General'}</span>
                         <h2>{featuredPost.title}</h2>
                         <p>{featuredPost.excerpt}</p>
                         <div className="featured-meta">
@@ -130,7 +129,7 @@ const BlogPage = () => {
                         </div>
                         <div className="featured-actions">
                             <Link to={`/blog/${featuredPost.id}`} className="read-more-btn">
-                                Devamını Oku →
+                                Read More →
                             </Link>
                             <button className="like-btn" onClick={() => handleLike(featuredPost.id)}>
                                 ❤️ {featuredPost.likes || 0}
@@ -154,7 +153,7 @@ const BlogPage = () => {
             <div className="blog-grid-enhanced">
                 {otherPosts.map(post => (
                     <article key={post.id} className="blog-card-enhanced">
-                        <span className="category-tag small">{CATEGORIES.find(c => c.id === post.category)?.name || 'Genel'}</span>
+                        <span className="category-tag small">{CATEGORIES.find(c => c.id === post.category)?.name || 'General'}</span>
                         <h3>{post.title}</h3>
                         <p>{post.excerpt}</p>
                         <div className="blog-card-meta">
@@ -163,7 +162,7 @@ const BlogPage = () => {
                         </div>
                         <div className="blog-card-actions">
                             <Link to={`/blog/${post.id}`} className="read-more-link">
-                                Devamını Oku →
+                                Read More →
                             </Link>
                             <button className="like-btn-small" onClick={() => handleLike(post.id)}>
                                 ❤️ {post.likes || 0}
@@ -180,7 +179,7 @@ const BlogPage = () => {
 
             {filteredPosts.length === 0 && (
                 <div className="no-posts">
-                    <p>Sonuç bulunamadı</p>
+                    <p>No results found</p>
                 </div>
             )}
 
@@ -197,7 +196,7 @@ const BlogPage = () => {
                             const newPost = {
                                 id: Date.now(),
                                 ...postData,
-                                date: new Date().toLocaleDateString('tr-TR'),
+                                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                                 likes: 0,
                                 likedBy: [],
                                 comments: []
@@ -233,24 +232,24 @@ const BlogPostModal = ({ post, onClose, onSave }) => {
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content blog-modal" onClick={(e) => e.stopPropagation()}>
-                <h2>{post ? 'Yazıyı Düzenle' : 'Yeni Blog Yazısı'}</h2>
+                <h2>{post ? 'Edit Post' : 'New Blog Post'}</h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
-                        placeholder="Başlık"
+                        placeholder="Title"
                         value={formData.title}
                         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                         required
                     />
                     <input
                         type="text"
-                        placeholder="Özet"
+                        placeholder="Excerpt"
                         value={formData.excerpt}
                         onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                         required
                     />
                     <textarea
-                        placeholder="İçerik (HTML destekler)"
+                        placeholder="Content (HTML supported)"
                         value={formData.content}
                         onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                         rows={10}
@@ -259,7 +258,7 @@ const BlogPostModal = ({ post, onClose, onSave }) => {
                     <div className="form-row">
                         <input
                             type="text"
-                            placeholder="Yazar"
+                            placeholder="Author"
                             value={formData.author}
                             onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                         />
@@ -267,15 +266,15 @@ const BlogPostModal = ({ post, onClose, onSave }) => {
                             value={formData.category}
                             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                         >
-                            <option value="career">Kariyer</option>
-                            <option value="coding">Yazılım</option>
+                            <option value="career">Career</option>
+                            <option value="coding">Coding</option>
                             <option value="mindset">Mindset</option>
-                            <option value="life">Hayat</option>
+                            <option value="life">Life</option>
                         </select>
                     </div>
                     <div className="modal-actions">
-                        <button type="button" className="btn-cancel" onClick={onClose}>İptal</button>
-                        <button type="submit" className="btn-save">Kaydet</button>
+                        <button type="button" className="btn-cancel" onClick={onClose}>Cancel</button>
+                        <button type="submit" className="btn-save">Save</button>
                     </div>
                 </form>
             </div>
