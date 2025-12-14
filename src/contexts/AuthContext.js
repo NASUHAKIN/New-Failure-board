@@ -32,11 +32,15 @@ export const AuthProvider = ({ children }) => {
         const userRef = doc(db, 'users', user.uid);
         const snapshot = await getDoc(userRef);
 
-        if (!snapshot.exists()) {
+        // Only create profile and send email if user doesn't exist
+        const isNewUser = !snapshot.exists();
+
+        if (isNewUser) {
             const { displayName, email, photoURL } = user;
             await setDoc(userRef, {
                 uid: user.uid,
                 displayName: displayName || additionalData.displayName || 'Anonymous',
+                displayNameLower: (displayName || additionalData.displayName || 'anonymous').toLowerCase(),
                 email,
                 photoURL: photoURL || null,
                 bio: '',
@@ -47,6 +51,18 @@ export const AuthProvider = ({ children }) => {
                 totalStories: 0,
                 totalVotes: 0
             });
+
+            // Send welcome email for new users
+            try {
+                const { sendWelcomeEmail, isEmailConfigured } = await import('../services/emailService');
+                if (isEmailConfigured()) {
+                    const userName = displayName || additionalData.displayName || 'there';
+                    await sendWelcomeEmail(email, userName);
+                    console.log('Welcome email sent to new user:', email);
+                }
+            } catch (error) {
+                console.log('Email service error:', error);
+            }
         }
 
         return getUserProfile(user.uid);
@@ -72,17 +88,7 @@ export const AuthProvider = ({ children }) => {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(result.user, { displayName });
         await createUserProfile(result.user, { displayName });
-
-        // Send welcome email via EmailJS
-        try {
-            const { sendWelcomeEmail, isEmailConfigured } = await import('../services/emailService');
-            if (isEmailConfigured()) {
-                await sendWelcomeEmail(email, displayName);
-            }
-        } catch (error) {
-            console.log('Email service not configured or error:', error);
-        }
-
+        // Welcome email is now sent in createUserProfile
         return result;
     };
 
