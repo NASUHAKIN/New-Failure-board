@@ -5964,3 +5964,251 @@ body.light-mode .tabs-clean {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   MODERN ABOUT PAGE
+   ======================================== */
+
+.about-modern {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Hero */
+.about-hero-modern {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.about-hero-modern h1 {
+  font-size: 3rem;
+  color: var(--text-primary);
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Stats */
+.about-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  margin: 40px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 50px;
+  background: var(--card-border);
+}
+
+/* Values */
+.about-values {
+  padding: 60px 0;
+}
+
+.about-values h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin: 0 0 40px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.value-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s;
+}
+
+.value-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 40px rgba(124, 58, 237, 0.1);
+}
+
+.value-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.value-card h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+}
+
+.value-card p {
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Story */
+.about-story-modern {
+  padding: 60px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(124, 58, 237, 0.02));
+  border-radius: 24px;
+  margin: 40px 0;
+}
+
+.story-content h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin: 0 0 24px;
+}
+
+.story-content p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.story-content strong {
+  color: var(--primary);
+}
+
+/* CTA */
+.about-cta {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.about-cta h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+}
+
+.about-cta>p {
+  color: var(--text-secondary);
+  margin: 0 0 32px;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cta-primary {
+  padding: 16px 32px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.cta-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.cta-secondary {
+  padding: 16px 32px;
+  background: transparent;
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.cta-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .about-hero-modern h1 {
+    font-size: 2rem;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .stat-divider {
+    width: 50px;
+    height: 1px;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-story-modern {
+    padding: 32px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}

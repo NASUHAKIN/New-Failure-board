@@ -1,44 +1,97 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AboutPage = () => {
     return (
-        <div className="about-page">
-            <section className="about-hero">
-                <h2 className="section-title">About Failure Board</h2>
-                <p className="about-intro">
-                    We believe that failure is not the opposite of success; it's part of success.
-                    Failure Board is a safe space to share your mistakes, learn from others, and realize you are not alone.
+        <div className="about-modern">
+            {/* Hero Section */}
+            <section className="about-hero-modern">
+                <div className="hero-badge">About Us</div>
+                <h1>
+                    Where <span className="gradient-text">Failure</span> Becomes
+                    <span className="gradient-text"> Growth</span>
+                </h1>
+                <p className="hero-subtitle">
+                    We're building the world's first support community for sharing failures
+                    and learning from each other's mistakes.
                 </p>
             </section>
 
-            <section className="about-mission">
-                <h3>Our Mission</h3>
-                <div className="mission-grid">
-                    <div className="mission-card">
-                        <span className="mission-icon">🛡️</span>
-                        <h4>Safe Space</h4>
-                        <p>An anonymous environment where you can be vulnerable without judgment.</p>
+            {/* Stats Section */}
+            <section className="about-stats">
+                <div className="stat-item">
+                    <span className="stat-number">10K+</span>
+                    <span className="stat-label">Stories Shared</span>
+                </div>
+                <div className="stat-divider"></div>
+                <div className="stat-item">
+                    <span className="stat-number">50K+</span>
+                    <span className="stat-label">Supports Given</span>
+                </div>
+                <div className="stat-divider"></div>
+                <div className="stat-item">
+                    <span className="stat-number">5K+</span>
+                    <span className="stat-label">Community Members</span>
+                </div>
+            </section>
+
+            {/* Mission Cards */}
+            <section className="about-values">
+                <h2>What We Believe</h2>
+                <div className="values-grid">
+                    <div className="value-card">
+                        <div className="value-icon">🛡️</div>
+                        <h3>Safe Space</h3>
+                        <p>Share anonymously. No judgment. Just support from people who understand.</p>
                     </div>
-                    <div className="mission-card">
-                        <span className="mission-icon">🌱</span>
-                        <h4>Growth</h4>
-                        <p>Turning stumbling blocks into stepping stones for personal development.</p>
+                    <div className="value-card">
+                        <div className="value-icon">💪</div>
+                        <h3>Resilience</h3>
+                        <p>Every failure is a lesson. We help you see the growth in every setback.</p>
                     </div>
-                    <div className="mission-card">
-                        <span className="mission-icon">🤝</span>
-                        <h4>Community</h4>
-                        <p>Supporting each other through the tough times because we've all been there.</p>
+                    <div className="value-card">
+                        <div className="value-icon">🤝</div>
+                        <h3>Community</h3>
+                        <p>You're not alone. Connect with others who've been through similar struggles.</p>
+                    </div>
+                    <div className="value-card">
+                        <div className="value-icon">✨</div>
+                        <h3>Authenticity</h3>
+                        <p>Real stories from real people. No filters, no highlight reels.</p>
                     </div>
                 </div>
             </section>
 
-            <section className="about-story">
-                <h3>Why We Started</h3>
-                <p>
-                    In a world curated for perfection on social media, we wanted to build a place for reality.
-                    Everyone fails. CEOs, artists, developers, parents. But we rarely talk about it.
-                    By sharing our failures, we normalize them and take away their power to shame us.
-                </p>
+            {/* Story Section */}
+            <section className="about-story-modern">
+                <div className="story-content">
+                    <h2>Why We Exist</h2>
+                    <p>
+                        In a world obsessed with success stories and perfect Instagram feeds,
+                        we forget that everyone fails. CEOs, athletes, artists, developers —
+                        we all stumble.
+                    </p>
+                    <p>
+                        <strong>FailBoard</strong> was born from a simple idea: what if we
+                        normalized failure? What if sharing our mistakes became as natural
+                        as celebrating our wins?
+                    </p>
+                    <p>
+                        Every story shared here helps someone feel less alone. Every
+                        "me too" comment creates connection. That's the power of
+                        vulnerability.
+                    </p>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="about-cta">
+                <h2>Ready to Share Your Story?</h2>
+                <p>Join thousands who've turned their failures into inspiration.</p>
+                <div className="cta-buttons">
+                    <Link to="/" className="cta-primary">Share Your Story</Link>
+                    <Link to="/blog" className="cta-secondary">Read Stories</Link>
+                </div>
             </section>
         </div>
     );
