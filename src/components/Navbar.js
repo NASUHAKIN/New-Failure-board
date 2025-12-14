@@ -85,7 +85,7 @@ const Navbar = () => {
                             className="btn-signin"
                             onClick={() => setShowAuthModal(true)}
                         >
-                            Sign In
+                            Get Started
                         </button>
                     )}
                 </div>
