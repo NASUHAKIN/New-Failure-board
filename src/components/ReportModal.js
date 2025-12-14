@@ -35,7 +35,7 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText }) => {
             setSubmitted(true);
             setTimeout(() => {
                 handleClose();
-            }, 1500);
+            }, 2500);
         } catch (error) {
             console.error('Error submitting report:', error);
         }
