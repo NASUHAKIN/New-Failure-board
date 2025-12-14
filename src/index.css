@@ -6212,3 +6212,96 @@ body.light-mode .tabs-clean {
     text-align: center;
   }
 }
+
+/* ========================================
+   EMAIL PREFERENCES
+   ======================================== */
+
+.email-preferences-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.email-preferences-section h3 {
+  margin: 0 0 20px;
+  color: var(--text-primary);
+}
+
+.preference-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.preference-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preference-toggle:hover {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.preference-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+  margin-top: 2px;
+}
+
+.preference-toggle span {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.preference-toggle small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.save-prefs-btn {
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-prefs-btn:disabled {
+  opacity: 0.5;
+}
+
+/* Opt-out badge */
+.opt-out-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.user-checkbox.opted-out {
+  opacity: 0.6;
+}
+
+.user-checkbox.opted-out .user-name {
+  color: var(--text-secondary);
+}

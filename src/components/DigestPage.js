@@ -29,10 +29,12 @@ const DigestPage = () => {
             const usersSnap = await getDocs(collection(db, 'users'));
             const usersList = usersSnap.docs.map(doc => ({
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
+                digestOptIn: doc.data().digestEmails !== false // Default to true
             })).filter(u => u.email);
             setUsers(usersList);
-            setSelectedUsers(usersList.map(u => u.id));
+            // Auto-select only users who opted in
+            setSelectedUsers(usersList.filter(u => u.digestOptIn).map(u => u.id));
 
             // Load top stories
             const savedFailures = localStorage.getItem('failures');
@@ -151,14 +153,17 @@ const DigestPage = () => {
 
                     <div className="users-list">
                         {users.map(user => (
-                            <label key={user.id} className={`user-checkbox ${selectedUsers.includes(user.id) ? 'selected' : ''}`}>
+                            <label key={user.id} className={`user-checkbox ${selectedUsers.includes(user.id) ? 'selected' : ''} ${!user.digestOptIn ? 'opted-out' : ''}`}>
                                 <input
                                     type="checkbox"
                                     checked={selectedUsers.includes(user.id)}
                                     onChange={() => toggleUser(user.id)}
                                 />
                                 <div className="user-info">
-                                    <span className="user-name">{user.displayName || 'Anonymous'}</span>
+                                    <span className="user-name">
+                                        {user.displayName || 'Anonymous'}
+                                        {!user.digestOptIn && <span className="opt-out-badge">Opted Out</span>}
+                                    </span>
                                     <span className="user-email">{user.email}</span>
                                 </div>
                             </label>
