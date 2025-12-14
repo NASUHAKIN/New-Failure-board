@@ -1,23 +1,103 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import blogPosts from '../data/blogData';
+import { useAuth } from '../contexts/AuthContext';
 
 const BlogPost = () => {
     const { id } = useParams();
-    const post = blogPosts.find(p => p.id === parseInt(id));
+    const { currentUser, userProfile } = useAuth();
+    const [post, setPost] = useState(null);
+    const [comment, setComment] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadPost();
+    }, [id]);
+
+    const loadPost = () => {
+        const savedPosts = localStorage.getItem('blogPosts');
+        if (savedPosts) {
+            const posts = JSON.parse(savedPosts);
+            const foundPost = posts.find(p => p.id === parseInt(id));
+            setPost(foundPost);
+        }
+        setLoading(false);
+    };
+
+    const handleLike = () => {
+        const savedPosts = localStorage.getItem('blogPosts');
+        if (savedPosts) {
+            const posts = JSON.parse(savedPosts);
+            const updated = posts.map(p => {
+                if (p.id === parseInt(id)) {
+                    return { ...p, likes: (p.likes || 0) + 1 };
+                }
+                return p;
+            });
+            localStorage.setItem('blogPosts', JSON.stringify(updated));
+            setPost({ ...post, likes: (post.likes || 0) + 1 });
+        }
+    };
+
+    const handleAddComment = (e) => {
+        e.preventDefault();
+        if (!comment.trim()) return;
+
+        const newComment = {
+            id: Date.now(),
+            text: comment,
+            author: currentUser ? (userProfile?.displayName || currentUser.displayName || 'Anonim') : 'Anonim',
+            date: new Date().toLocaleDateString('tr-TR')
+        };
+
+        const savedPosts = localStorage.getItem('blogPosts');
+        if (savedPosts) {
+            const posts = JSON.parse(savedPosts);
+            const updated = posts.map(p => {
+                if (p.id === parseInt(id)) {
+                    return { ...p, comments: [...(p.comments || []), newComment] };
+                }
+                return p;
+            });
+            localStorage.setItem('blogPosts', JSON.stringify(updated));
+            setPost({ ...post, comments: [...(post.comments || []), newComment] });
+        }
+
+        setComment('');
+    };
+
+    const handleShare = (platform) => {
+        const url = window.location.href;
+        const text = `${post.title} - FailBoard Blog`;
+
+        const urls = {
+            twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+            whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`
+        };
+
+        window.open(urls[platform], '_blank');
+    };
+
+    if (loading) {
+        return (
+            <div className="blog-post-container">
+                <p>Yükleniyor...</p>
+            </div>
+        );
+    }
 
     if (!post) {
         return (
             <div className="blog-post-container">
-                <h2>Post not found</h2>
-                <Link to="/blog" className="back-link">← Back to Blog</Link>
+                <h2>Yazı bulunamadı</h2>
+                <Link to="/blog" className="back-link">← Blog'a Dön</Link>
             </div>
         );
     }
 
     return (
         <div className="blog-post-container">
-            <Link to="/blog" className="back-link">← Back to Blog</Link>
+            <Link to="/blog" className="back-link">← Blog'a Dön</Link>
 
             <article className="blog-post-full">
                 <header className="blog-post-header">
@@ -27,7 +107,7 @@ const BlogPost = () => {
                         <span className="separator">•</span>
                         <span>{post.readTime}</span>
                         <span className="separator">•</span>
-                        <span className="blog-author">By {post.author}</span>
+                        <span className="blog-author">{post.author}</span>
                     </div>
                 </header>
 
@@ -35,6 +115,53 @@ const BlogPost = () => {
                     className="blog-post-content"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                 />
+
+                {/* Actions */}
+                <div className="blog-post-actions">
+                    <button className="like-btn-large" onClick={handleLike}>
+                        ❤️ {post.likes || 0} Beğeni
+                    </button>
+
+                    <div className="share-buttons">
+                        <span>Paylaş:</span>
+                        <button onClick={() => handleShare('twitter')}>𝕏</button>
+                        <button onClick={() => handleShare('linkedin')}>in</button>
+                        <button onClick={() => handleShare('whatsapp')}>📱</button>
+                    </div>
+                </div>
+
+                {/* Comments */}
+                <section className="comments-section">
+                    <h3>Yorumlar ({post.comments?.length || 0})</h3>
+
+                    <form className="comment-form" onSubmit={handleAddComment}>
+                        <textarea
+                            placeholder="Yorum yaz..."
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            rows={3}
+                        />
+                        <button type="submit" disabled={!comment.trim()}>
+                            Yorum Gönder
+                        </button>
+                    </form>
+
+                    <div className="comments-list">
+                        {(post.comments || []).length === 0 ? (
+                            <p className="no-comments">Henüz yorum yok. İlk yorumu sen yaz!</p>
+                        ) : (
+                            post.comments.map(c => (
+                                <div key={c.id} className="comment-item">
+                                    <div className="comment-header">
+                                        <strong>{c.author}</strong>
+                                        <span>{c.date}</span>
+                                    </div>
+                                    <p>{c.text}</p>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </section>
             </article>
         </div>
     );

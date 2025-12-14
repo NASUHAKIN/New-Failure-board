@@ -30,6 +30,10 @@ emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
  * Send welcome email to new user
  */
 export const sendWelcomeEmail = async (email, name) => {
+    console.log('=== EmailJS Debug ===');
+    console.log('Attempting to send welcome email to:', email);
+    console.log('Config:', EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATES.WELCOME);
+
     try {
         const response = await emailjs.send(
             EMAILJS_CONFIG.SERVICE_ID,
@@ -41,10 +45,11 @@ export const sendWelcomeEmail = async (email, name) => {
                 app_url: window.location.origin
             }
         );
-        console.log('Welcome email sent:', response.status);
+        console.log('✅ Welcome email sent successfully! Status:', response.status);
         return { success: true };
     } catch (error) {
-        console.error('Error sending welcome email:', error);
+        console.error('❌ Error sending welcome email:', error);
+        console.error('Error details:', JSON.stringify(error));
         return { success: false, error: error.message };
     }
 };
