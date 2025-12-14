@@ -1,34 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useAuth } from '../contexts/AuthContext';
 
-const ReportModal = ({ isOpen, onClose, storyId, storyText, anchorRef }) => {
+const ReportModal = ({ isOpen, onClose, storyId, storyText }) => {
     const { currentUser } = useAuth();
     const [selectedReason, setSelectedReason] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-    const dropdownRef = useRef(null);
 
     const reasons = [
-        'Spam',
-        'Harassment',
-        'Hate speech',
-        'Harmful content',
-        'Other'
+        { id: 'spam', label: 'Spam', icon: '🚫' },
+        { id: 'harassment', label: 'Harassment', icon: '😠' },
+        { id: 'hate', label: 'Hate speech', icon: '⛔' },
+        { id: 'harmful', label: 'Harmful', icon: '⚠️' },
+        { id: 'other', label: 'Other', icon: '📝' }
     ];
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                onClose();
-            }
-        };
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [isOpen, onClose]);
 
     const handleSubmit = async () => {
         if (!selectedReason) return;
@@ -46,9 +33,7 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText, anchorRef }) => {
             });
             setSubmitted(true);
             setTimeout(() => {
-                onClose();
-                setSubmitted(false);
-                setSelectedReason('');
+                handleClose();
             }, 1500);
         } catch (error) {
             console.error('Error submitting report:', error);
@@ -56,37 +41,50 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText, anchorRef }) => {
         setSubmitting(false);
     };
 
+    const handleClose = () => {
+        onClose();
+        setSubmitted(false);
+        setSelectedReason('');
+    };
+
     if (!isOpen) return null;
 
     return (
-        <div className="report-dropdown" ref={dropdownRef}>
-            {submitted ? (
-                <div className="report-done">
-                    <span>✓</span> Reported
-                </div>
-            ) : (
-                <>
-                    <div className="report-dropdown-header">Report</div>
-                    <div className="report-options">
-                        {reasons.map(r => (
-                            <button
-                                key={r}
-                                className={`report-option ${selectedReason === r ? 'selected' : ''}`}
-                                onClick={() => setSelectedReason(r)}
-                            >
-                                {r}
-                            </button>
-                        ))}
+        <div className="report-overlay" onClick={handleClose}>
+            <div className="report-box" onClick={e => e.stopPropagation()}>
+                {submitted ? (
+                    <div className="report-success-msg">
+                        <span className="success-icon">✓</span>
+                        <p>Report submitted</p>
                     </div>
-                    <button
-                        className="report-send-btn"
-                        onClick={handleSubmit}
-                        disabled={!selectedReason || submitting}
-                    >
-                        {submitting ? '...' : 'Send'}
-                    </button>
-                </>
-            )}
+                ) : (
+                    <>
+                        <div className="report-header">
+                            <span className="report-title">Report</span>
+                            <button className="report-close" onClick={handleClose}>×</button>
+                        </div>
+                        <div className="report-reasons">
+                            {reasons.map(r => (
+                                <button
+                                    key={r.id}
+                                    className={`report-reason-btn ${selectedReason === r.id ? 'active' : ''}`}
+                                    onClick={() => setSelectedReason(r.id)}
+                                >
+                                    <span>{r.icon}</span>
+                                    <span>{r.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <button
+                            className="report-submit"
+                            onClick={handleSubmit}
+                            disabled={!selectedReason || submitting}
+                        >
+                            {submitting ? 'Sending...' : 'Submit'}
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

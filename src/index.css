@@ -4079,102 +4079,146 @@ body.light-mode .tabs-clean {
   background: rgba(124, 58, 237, 0.1);
 }
 
-/* Report Dropdown - Compact Style */
-.report-wrapper {
-  position: relative;
-}
-
-.report-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 8px;
-  width: 160px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: var(--shadow-lg);
-  z-index: 100;
+/* Report Modal - Clean Overlay Style */
+.report-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
   animation: fadeIn 0.15s ease;
 }
 
-.report-dropdown-header {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--card-border);
+.report-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+  width: 280px;
+  max-width: 90vw;
+  box-shadow: var(--shadow-lg);
 }
 
-.report-options {
+.report-header {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.report-option {
-  padding: 8px 10px;
+.report-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.report-close {
+  width: 28px;
+  height: 28px;
   background: transparent;
   border: none;
-  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.report-close:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
-  font-size: 0.8rem;
-  text-align: left;
+}
+
+.report-reasons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.report-reason-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.report-option:hover {
+.report-reason-btn span:first-child {
+  font-size: 1.25rem;
+}
+
+.report-reason-btn:hover {
+  border-color: var(--primary);
   background: rgba(139, 92, 246, 0.1);
 }
 
-.report-option.selected {
+.report-reason-btn.active {
   background: var(--primary);
+  border-color: var(--primary);
   color: white;
 }
 
-.report-send-btn {
+.report-submit {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.report-send-btn:hover:not(:disabled) {
+.report-submit:hover:not(:disabled) {
   background: var(--primary-hover);
 }
 
-.report-send-btn:disabled {
+.report-submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.report-done {
+.report-success-msg {
   text-align: center;
-  padding: 12px;
-  color: var(--success);
-  font-weight: 600;
-  font-size: 0.85rem;
+  padding: 24px 0;
 }
 
-.report-done span {
-  margin-right: 4px;
+.success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--success);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
 }
 
-/* Report button wrapper needs relative positioning */
-.story-actions,
-.failure-actions {
+.report-success-msg p {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.report-wrapper {
   position: relative;
 }
 
