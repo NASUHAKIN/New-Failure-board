@@ -3761,6 +3761,31 @@ body.light-mode .action-circle:hover {
   font-size: 0.85rem;
 }
 
+/* Patreon Button */
+.patreon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #FF424D;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.patreon-btn:hover {
+  background: #E93842;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 66, 77, 0.3);
+}
+
+.patreon-btn svg {
+  flex-shrink: 0;
+}
+
 .theme-toggle-footer {
   background: transparent;
   border: 1px solid var(--card-border);
