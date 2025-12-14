@@ -15,7 +15,7 @@ const EMAILJS_CONFIG = {
     TEMPLATES: {
         WELCOME: 'template_k5jbazg',     // Your welcome template ID
         NOTIFICATION: 'template_notify', // Create this template for notifications
-        DIGEST: 'template_digest'        // Create this template for digest
+        DIGEST: 'template_klo1olt'       // Weekly digest template
     }
 };
 
@@ -103,21 +103,20 @@ export const sendWeeklyDigest = async (email, userName, topStories, stats) => {
     // Build stories HTML
     const storiesHtml = topStories.map((s, i) =>
         `<div style="margin-bottom:12px;padding:12px;background:#f8f8f8;border-radius:8px;">
-            <strong>#${i + 1}</strong> ${s.text?.substring(0, 80) || 'Hikaye'}...
-            <br><small>❤️ ${s.votes || 0} destek</small>
+            <strong>#${i + 1}</strong> ${s.text?.substring(0, 80) || 'Story'}...
+            <br><small>❤️ ${s.votes || 0} supports</small>
         </div>`
     ).join('');
 
     try {
         const response = await emailjs.send(
             EMAILJS_CONFIG.SERVICE_ID,
-            EMAILJS_CONFIG.TEMPLATES.WELCOME, // Reusing welcome template
+            EMAILJS_CONFIG.TEMPLATES.DIGEST,
             {
                 to_email: email,
                 to_name: userName,
-                app_name: 'FailBoard Haftalık Özet',
+                app_name: 'FailBoard Weekly Digest',
                 app_url: window.location.origin,
-                // Additional data (may need template update)
                 stories_html: storiesHtml,
                 total_stories: stats.totalStories,
                 total_users: stats.totalUsers
