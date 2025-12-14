@@ -83,11 +83,37 @@ const AdminPage = () => {
                 }
             }
 
-            alert(`Digest gönderildi!\n✅ Başarılı: ${successCount}\n❌ Hata: ${errorCount}`);
+            alert(`Digest sent!\n✅ Success: ${successCount}\n❌ Failed: ${errorCount}`);
         } catch (error) {
             console.error('Error sending digest:', error);
-            alert('Digest gönderilirken hata oluştu: ' + error.message);
+            alert('Error sending digest: ' + error.message);
         }
+    };
+
+    const exportData = () => {
+        const data = {
+            stories: JSON.parse(localStorage.getItem('failures') || '[]'),
+            blogPosts: JSON.parse(localStorage.getItem('blogPosts') || '[]'),
+            exportedAt: new Date().toISOString()
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `failboard-export-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    const clearAllStories = () => {
+        if (!window.confirm('⚠️ WARNING: This will delete ALL stories permanently. Are you sure?')) return;
+        if (!window.confirm('This action cannot be undone. Type "DELETE" mentally and click OK to confirm.')) return;
+
+        localStorage.setItem('failures', JSON.stringify([]));
+        setStories([]);
+        loadDashboardStats();
+        alert('All stories have been deleted.');
     };
 
     const loadReports = async () => {
@@ -221,32 +247,69 @@ const AdminPage = () => {
             {/* Dashboard */}
             {activeTab === 'dashboard' && (
                 <div className="admin-dashboard">
+                    {/* Stats Grid */}
                     <div className="stats-grid">
-                        <div className="stat-card">
+                        <div className="stat-card" onClick={() => setActiveTab('users')}>
                             <h3>{stats.totalUsers}</h3>
-                            <p>Toplam Kullanıcı</p>
+                            <p>Total Users</p>
                         </div>
-                        <div className="stat-card">
+                        <div className="stat-card" onClick={() => setActiveTab('stories')}>
                             <h3>{stats.totalStories}</h3>
-                            <p>Toplam Hikaye</p>
+                            <p>Total Stories</p>
                         </div>
-                        <div className="stat-card warning">
+                        <div className="stat-card warning" onClick={() => setActiveTab('reports')}>
                             <h3>{stats.pendingReports}</h3>
-                            <p>Bekleyen Şikayet</p>
+                            <p>Pending Reports</p>
                         </div>
                     </div>
 
-                    <div className="quick-actions">
-                        <h3>Hızlı İşlemler</h3>
-                        <button onClick={() => setActiveTab('reports')}>
-                            Şikayetleri İncele →
-                        </button>
-                        <button onClick={() => setActiveTab('stories')}>
-                            Hikayeleri Yönet →
-                        </button>
-                        <button onClick={sendWeeklyDigest} className="digest-btn">
-                            📧 Haftalık Özet Gönder
-                        </button>
+                    {/* Quick Actions Grid */}
+                    <div className="admin-actions-grid">
+                        <div className="action-card" onClick={() => setActiveTab('reports')}>
+                            <span className="action-icon">⚠️</span>
+                            <h4>Review Reports</h4>
+                            <p>Handle user complaints</p>
+                        </div>
+                        <div className="action-card" onClick={() => setActiveTab('stories')}>
+                            <span className="action-icon">📖</span>
+                            <h4>Manage Stories</h4>
+                            <p>Edit or delete content</p>
+                        </div>
+                        <div className="action-card" onClick={() => setActiveTab('users')}>
+                            <span className="action-icon">👥</span>
+                            <h4>Manage Users</h4>
+                            <p>Ban or view users</p>
+                        </div>
+                        <div className="action-card" onClick={sendWeeklyDigest}>
+                            <span className="action-icon">📧</span>
+                            <h4>Send Digest</h4>
+                            <p>Weekly email to all</p>
+                        </div>
+                        <div className="action-card" onClick={exportData}>
+                            <span className="action-icon">📥</span>
+                            <h4>Export Data</h4>
+                            <p>Download all data</p>
+                        </div>
+                        <div className="action-card danger" onClick={clearAllStories}>
+                            <span className="action-icon">🗑️</span>
+                            <h4>Clear Stories</h4>
+                            <p>Delete all stories</p>
+                        </div>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div className="recent-activity">
+                        <h3>Recent Stories</h3>
+                        <div className="activity-list">
+                            {stories.slice(0, 5).map(story => (
+                                <div key={story.id} className="activity-item">
+                                    <span className="activity-author">{story.author}</span>
+                                    <span className="activity-text">{story.text?.substring(0, 50)}...</span>
+                                    <span className="activity-stats">❤️ {story.votes || 0}</span>
+                                </div>
+                            ))}
+                            {stories.length === 0 && <p className="empty-message">No stories yet</p>}
+                        </div>
                     </div>
                 </div>
             )}
