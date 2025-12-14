@@ -33,11 +33,13 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText }) => {
                 createdAt: serverTimestamp()
             });
             setSubmitted(true);
+            alert('✅ Report submitted successfully!');
             setTimeout(() => {
                 handleClose();
-            }, 2500);
+            }, 1000);
         } catch (error) {
             console.error('Error submitting report:', error);
+            alert('❌ Failed: ' + error.message);
         }
         setSubmitting(false);
     };
