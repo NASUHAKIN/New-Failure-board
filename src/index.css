@@ -4872,6 +4872,209 @@ body.light-mode .tabs-clean {
   cursor: pointer;
 }
 
+/* Admin Dashboard */
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin: 0 0 8px;
+}
+
+.stat-card p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.stat-card.warning h3 {
+  color: #f59e0b;
+}
+
+.quick-actions {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.quick-actions h3 {
+  margin: 0 0 16px;
+  color: var(--text-primary);
+}
+
+.quick-actions button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 8px;
+  background: transparent;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-actions button:hover {
+  background: rgba(124, 58, 237, 0.1);
+  border-color: var(--primary);
+}
+
+/* Story Admin List */
+.stories-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.story-admin-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.story-admin-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.story-author {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.story-date {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.story-text {
+  margin: 0 0 12px;
+  color: var(--text-primary);
+}
+
+.story-admin-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.btn-danger-small {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-danger {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* User Admin List */
+.users-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-admin-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.user-admin-card.banned {
+  opacity: 0.6;
+  border-color: #ef4444;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-info strong {
+  display: block;
+  color: var(--text-primary);
+}
+
+.user-info span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.user-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.user-meta span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.admin-badge {
+  padding: 4px 8px;
+  background: rgba(124, 58, 237, 0.2);
+  color: var(--primary);
+  border-radius: 4px;
+}
+
+.banned-badge {
+  padding: 4px 8px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-radius: 4px;
+}
+
+.deleted-notice {
+  margin-top: 8px;
+  color: #10b981;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Admin responsive */
 @media (max-width: 768px) {
 
