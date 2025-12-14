@@ -1,70 +1,59 @@
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { parseHashtags } from './HashtagBadge';
 
 const FailureForm = ({ addFailure }) => {
+  const { currentUser, userProfile } = useAuth();
   const [text, setText] = useState('');
-  const [category, setCategory] = useState('General');
-  const [author, setAuthor] = useState('');
-  const [isSupportRequest, setIsSupportRequest] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const categories = ["General", "Coding", "Work", "Life", "Love", "Cooking"];
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.trim()) {
+      const hashtags = parseHashtags(text);
+      const authorName = currentUser
+        ? (userProfile?.displayName || currentUser.displayName)
+        : 'Anonymous';
+
       addFailure({
         text,
-        category,
-        author: author.trim() || 'Anonymous',
-        isSupportRequest
+        category: 'General',
+        author: authorName,
+        authorId: currentUser?.uid || null,
+        isSupportRequest: false,
+        hashtags
       });
+
       setText('');
-      setCategory('General');
-      setAuthor('');
-      setIsSupportRequest(false);
+      setIsExpanded(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="failure-form">
-      <div className="form-row">
-        <input
-          type="text"
-          className="failure-input-line"
-          placeholder="Your Name (Optional)"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+    <form onSubmit={handleSubmit} className="failure-form-simple">
+      <div className="form-input-wrapper">
+        <textarea
+          className="story-input"
+          placeholder={isExpanded ? "Share your failure story... Use #hashtags!" : "What went wrong today? Share your story..."}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onFocus={() => setIsExpanded(true)}
+          rows={isExpanded ? 4 : 2}
         />
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="category-select"
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
       </div>
 
-      <textarea
-        className="failure-input"
-        placeholder="Share your failure story..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        rows="3"
-      />
-
-      <div className="form-footer">
-        <label className="checkbox-container">
-          <input
-            type="checkbox"
-            checked={isSupportRequest}
-            onChange={(e) => setIsSupportRequest(e.target.checked)}
-          />
-          <span className="checkmark"></span>
-          I need advice / support 🤝
-        </label>
-        <button type="submit" className="submit-btn">Share Story</button>
-      </div>
+      {(isExpanded || text.length > 0) && (
+        <div className="form-actions-simple">
+          <span className="char-count">{text.length}/500</span>
+          <button
+            type="submit"
+            className="submit-btn-simple"
+            disabled={!text.trim()}
+          >
+            Share Story
+          </button>
+        </div>
+      )}
     </form>
   );
 };
