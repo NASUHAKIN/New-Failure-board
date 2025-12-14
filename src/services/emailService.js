@@ -94,8 +94,46 @@ export const isEmailConfigured = () => {
         EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
 };
 
+/**
+ * Send weekly digest email to a user
+ */
+export const sendWeeklyDigest = async (email, userName, topStories, stats) => {
+    console.log('Sending weekly digest to:', email);
+
+    // Build stories HTML
+    const storiesHtml = topStories.map((s, i) =>
+        `<div style="margin-bottom:12px;padding:12px;background:#f8f8f8;border-radius:8px;">
+            <strong>#${i + 1}</strong> ${s.text?.substring(0, 80) || 'Hikaye'}...
+            <br><small>❤️ ${s.votes || 0} destek</small>
+        </div>`
+    ).join('');
+
+    try {
+        const response = await emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATES.WELCOME, // Reusing welcome template
+            {
+                to_email: email,
+                to_name: userName,
+                app_name: 'FailBoard Haftalık Özet',
+                app_url: window.location.origin,
+                // Additional data (may need template update)
+                stories_html: storiesHtml,
+                total_stories: stats.totalStories,
+                total_users: stats.totalUsers
+            }
+        );
+        console.log('✅ Digest email sent to:', email, response.status);
+        return { success: true };
+    } catch (error) {
+        console.error('❌ Error sending digest:', error);
+        return { success: false, error: error.message };
+    }
+};
+
 export default {
     sendWelcomeEmail,
     sendNotificationEmail,
+    sendWeeklyDigest,
     isEmailConfigured
 };

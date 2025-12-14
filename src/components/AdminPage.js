@@ -45,6 +45,51 @@ const AdminPage = () => {
         }
     };
 
+    const sendWeeklyDigest = async () => {
+        if (!window.confirm('Tüm kullanıcılara haftalık özet emaili gönderilecek. Onaylıyor musun?')) return;
+
+        try {
+            const { sendWeeklyDigest: sendDigest, isEmailConfigured } = await import('../services/emailService');
+
+            if (!isEmailConfigured()) {
+                alert('Email servisi yapılandırılmamış!');
+                return;
+            }
+
+            // Get users
+            const usersSnap = await getDocs(collection(db, 'users'));
+            const usersList = usersSnap.docs.map(doc => doc.data());
+
+            // Get top stories
+            const savedFailures = localStorage.getItem('failures');
+            const allStories = savedFailures ? JSON.parse(savedFailures) : [];
+            const topStories = allStories
+                .sort((a, b) => (b.votes || 0) - (a.votes || 0))
+                .slice(0, 5);
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const user of usersList) {
+                if (user.email) {
+                    const result = await sendDigest(
+                        user.email,
+                        user.displayName || 'Kullanıcı',
+                        topStories,
+                        { totalStories: allStories.length, totalUsers: usersList.length }
+                    );
+                    if (result.success) successCount++;
+                    else errorCount++;
+                }
+            }
+
+            alert(`Digest gönderildi!\n✅ Başarılı: ${successCount}\n❌ Hata: ${errorCount}`);
+        } catch (error) {
+            console.error('Error sending digest:', error);
+            alert('Digest gönderilirken hata oluştu: ' + error.message);
+        }
+    };
+
     const loadReports = async () => {
         setLoading(true);
         try {
@@ -198,6 +243,9 @@ const AdminPage = () => {
                         </button>
                         <button onClick={() => setActiveTab('stories')}>
                             Hikayeleri Yönet →
+                        </button>
+                        <button onClick={sendWeeklyDigest} className="digest-btn">
+                            📧 Haftalık Özet Gönder
                         </button>
                     </div>
                 </div>
