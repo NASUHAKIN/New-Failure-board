@@ -6563,3 +6563,96 @@ select:focus {
   border-color: rgba(139, 92, 246, 0.5);
   box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
 }
+
+/* ========================================
+   MODERN NAV ICONS
+   ======================================== */
+
+.nav-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-icon-btn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.nav-icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* User Avatar Button */
+.user-avatar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--gradient-button);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-avatar-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Notification styling */
+.notification-trigger.nav-icon-btn {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Nav Auth Container */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Light mode adjustments */
+body.light-mode .nav-icon-btn {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: var(--text-secondary);
+}
+
+body.light-mode .nav-icon-btn:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+  color: var(--primary);
+}

@@ -28,15 +28,15 @@ const UserMenu = () => {
     };
 
     const displayName = userProfile?.displayName || currentUser?.displayName || 'User';
+    const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
     return (
         <div className="user-menu-container" ref={menuRef}>
             <button
-                className="user-menu-trigger-simple"
+                className="user-avatar-btn"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span>{displayName}</span>
-                <span className="dropdown-arrow">{isOpen ? '▲' : '▼'}</span>
+                {initials}
             </button>
 
             {isOpen && (
