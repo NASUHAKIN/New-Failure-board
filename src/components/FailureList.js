@@ -69,13 +69,21 @@ const FailureList = ({ failures, onSupport, onAddComment, onReplyToComment, onEd
                                         <button className="icon-btn" onClick={() => onDeleteStory(failure.id)} title="Delete">🗑️</button>
                                     </>
                                 ) : (
-                                    <button
-                                        className="icon-btn report-btn"
-                                        onClick={() => setReportingStory(failure)}
-                                        title="Report"
-                                    >
-                                        ⚠️
-                                    </button>
+                                    <div className="report-wrapper">
+                                        <button
+                                            className="icon-btn report-btn"
+                                            onClick={() => setReportingStory(reportingStory?.id === failure.id ? null : failure)}
+                                            title="Report"
+                                        >
+                                            ⚠️
+                                        </button>
+                                        <ReportModal
+                                            isOpen={reportingStory?.id === failure.id}
+                                            onClose={() => setReportingStory(null)}
+                                            storyId={failure.id}
+                                            storyText={failure.text}
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -130,14 +138,6 @@ const FailureList = ({ failures, onSupport, onAddComment, onReplyToComment, onEd
                     </div>
                 ))}
             </div>
-
-            {/* Report Modal */}
-            <ReportModal
-                isOpen={!!reportingStory}
-                onClose={() => setReportingStory(null)}
-                storyId={reportingStory?.id}
-                storyText={reportingStory?.text}
-            />
         </>
     );
 };

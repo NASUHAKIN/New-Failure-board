@@ -4080,6 +4080,10 @@ body.light-mode .tabs-clean {
 }
 
 /* Report Dropdown - Compact Style */
+.report-wrapper {
+  position: relative;
+}
+
 .report-dropdown {
   position: absolute;
   top: 100%;
