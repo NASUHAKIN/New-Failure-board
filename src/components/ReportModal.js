@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useAuth } from '../contexts/AuthContext';
@@ -49,7 +50,8 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText }) => {
 
     if (!isOpen) return null;
 
-    return (
+    // Use Portal to render outside parent hierarchy
+    return ReactDOM.createPortal(
         <div className="report-overlay" onClick={handleClose}>
             <div className="report-box" onClick={e => e.stopPropagation()}>
                 {submitted ? (
@@ -85,7 +87,8 @@ const ReportModal = ({ isOpen, onClose, storyId, storyText }) => {
                     </>
                 )}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
