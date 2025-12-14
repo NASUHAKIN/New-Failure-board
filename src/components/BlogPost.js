@@ -72,7 +72,8 @@ const BlogPost = () => {
         const urls = {
             twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
             linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-            whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`
+            whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+            substack: `https://substack.com/notes/new?body=${encodeURIComponent(text + '\n\n' + url)}`
         };
 
         window.open(urls[platform], '_blank');
@@ -127,6 +128,7 @@ const BlogPost = () => {
                         <button onClick={() => handleShare('twitter')}>𝕏</button>
                         <button onClick={() => handleShare('linkedin')}>in</button>
                         <button onClick={() => handleShare('whatsapp')}>📱</button>
+                        <button onClick={() => handleShare('substack')} className="substack-btn">S</button>
                     </div>
                 </div>
 
